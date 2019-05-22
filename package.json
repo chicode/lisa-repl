@@ -1,0 +1,35 @@
+{
+	"name": "elm-webpack-4-starter",
+	"version": "0.0.1",
+	"description": "Elm starter template with webpack 4",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/romariolopezc/elm-webpack-4-starter"
+	},
+	"contributors": [
+		"Romario Lopez <romariolopezc@gmail.com>",
+		"Geoffrey Roguelon <geoffrey.roguelon@gmail.com>"
+	],
+	"scripts": {
+		"webpack": "webpack",
+		"webpack-dev-server": "webpack-dev-server",
+		"prod": "npm run webpack -- --env.mode production",
+		"prod:analyze": "npm run prod -- --env.presets analyze",
+		"prod:compress": "npm run prod -- --env.presets compress",
+		"elm-analyse": "elm-analyse -s -o",
+		"preprod": "rimraf dist"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"elm-analyse": "^0.16.3",
+		"elm-hot-webpack-loader": "^1.0.2",
+		"elm-webpack-loader": "^5.0.0",
+		"rimraf": "^2.6.3",
+		"terser-webpack-plugin": "^1.2.3",
+		"webpack": "^4.30.0",
+		"webpack-bundle-analyzer": "^3.3.2",
+		"webpack-cli": "^3.3.2",
+		"webpack-dashboard": "^3.0.5",
+		"webpack-merge": "^4.2.1"
+	}
+}
