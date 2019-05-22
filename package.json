@@ -2,6 +2,7 @@
 	"name": "elm-webpack-4-starter",
 	"version": "0.0.1",
 	"description": "Elm starter template with webpack 4",
+	"main": "dist/main.js",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/romariolopezc/elm-webpack-4-starter"

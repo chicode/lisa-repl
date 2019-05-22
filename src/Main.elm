@@ -1,5 +1,6 @@
 port module Main exposing (main)
 
+import Dict
 import Json.Encode as E
 import Lisa
 
@@ -14,7 +15,7 @@ update msg () =
         Request s ->
             ( ()
             , out <|
-                case Lisa.processStringToJson s of
+                case Lisa.processStringToJson s { macros = Dict.empty } of
                     Ok parsed ->
                         E.object
                             [ ( "status", E.string "ok" )

@@ -1,4 +1,4 @@
-import { Elm } from "./elm/Main.elm";
+import { Elm } from "./Main.elm";
 import * as lisavm from "lisa-vm";
 import * as repl from "repl";
 
