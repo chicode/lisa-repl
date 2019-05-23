@@ -21,7 +21,7 @@ repl.start({
     setImmediate(() => {
       const programResult = processLisa(evalCmd);
       if (programResult.status === "err") {
-        const err = new Error(programResult.error.msg);
+        const err = new SyntaxError(programResult.error.msg);
         return cb(
           programResult.error.recoverable ? new repl.Recoverable(err) : err
         );
