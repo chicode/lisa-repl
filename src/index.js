@@ -20,8 +20,12 @@ repl.start({
   eval: (evalCmd, _context, _file, cb) => {
     setImmediate(() => {
       const programResult = processLisa(evalCmd);
-      if (programResult.status === "err")
-        return cb(new repl.Recoverable(new Error(programResult.error.msg)));
+      if (programResult.status === "err") {
+        const err = new Error(programResult.error.msg);
+        return cb(
+          programResult.error.recoverable ? new repl.Recoverable(err) : err
+        );
+      }
       const program = programResult.result;
       try {
         lisavm.evalProgramInScope(program, programScope);
