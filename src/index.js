@@ -4,22 +4,15 @@ import * as repl from "repl";
 
 const app = Elm.Main.init();
 
-function processLisa(s) {
-  let out;
-  function sub(res) {
-    out = res;
-    app.ports.out.unsubscribe(sub);
-  }
-  app.ports.out.subscribe(sub);
-  app.ports.incoming.send(s);
-  return out;
-}
-
 const programScope = lisavm.initProgram();
 repl.start({
+  ignoreUndefined: true,
   eval: (evalCmd, _context, _file, cb) => {
-    setImmediate(() => {
-      const programResult = processLisa(evalCmd);
+    app.ports.out.subscribe(sub);
+    app.ports.incoming.send(evalCmd);
+    function sub(programResult) {
+      app.ports.out.unsubscribe(sub);
+
       if (programResult.status === "err") {
         const err = new SyntaxError(programResult.error.msg);
         return cb(
@@ -28,12 +21,11 @@ repl.start({
       }
       const program = programResult.result;
       try {
-        lisavm.evalProgramInScope(program, programScope);
+        const result = lisavm.evalExpressions(programScope, program);
+        cb(null, result.type !== "none" ? lisavm.valueToJs(result) : undefined);
       } catch (err) {
         cb(err);
       }
-      const result = programScope.getVar("result");
-      cb(null, result && lisavm.valueToJs(result.value));
-    });
+    }
   }
 });

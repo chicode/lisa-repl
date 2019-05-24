@@ -15,18 +15,7 @@ update msg () =
         Request s ->
             ( ()
             , out <|
-                case Lisa.processStringToJson s { macros = Dict.empty } of
-                    Ok parsed ->
-                        E.object
-                            [ ( "status", E.string "ok" )
-                            , ( "result", parsed )
-                            ]
-
-                    Err err ->
-                        E.object
-                            [ ( "status", E.string "err" )
-                            , ( "error", err )
-                            ]
+                Lisa.parseExpressionToJson s { macros = Dict.empty }
             )
 
 

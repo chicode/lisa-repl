@@ -6,7 +6,7 @@
     "elm-version": "0.19.0",
     "dependencies": {
         "direct": {
-            "chicode/lisa": "2.0.1",
+            "chicode/lisa": "3.0.1",
             "elm/core": "1.0.2",
             "elm/json": "1.1.3"
         },
