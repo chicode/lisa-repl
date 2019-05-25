@@ -5,6 +5,12 @@ import * as repl from "repl";
 const app = Elm.Main.init();
 
 const programScope = lisavm.initProgram();
+programScope.vars["-last"] = {
+  type: "const",
+  get value() {
+    return rep.last || { type: "none" };
+  }
+};
 const rep = repl.start({
   ignoreUndefined: true,
   eval: (evalCmd, _context, _file, cb) => {
@@ -22,10 +28,7 @@ const rep = repl.start({
       const program = programResult.result;
       try {
         const result = lisavm.evalExpressions(programScope, program);
-        programScope.vars["-last"] = {
-          type: "var",
-          value: result
-        };
+        rep.last = result;
         cb(null, result.type !== "none" ? lisavm.valueToJs(result) : undefined);
       } catch (err) {
         cb(err);
