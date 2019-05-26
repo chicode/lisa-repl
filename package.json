@@ -5,9 +5,9 @@
     "build": "webpack"
   },
   "files": [
-    "dist/main.js"
+    "./dist/main.js"
   ],
-  "bin": "dist/main.js",
+  "bin": "./dist/main.js",
   "devDependencies": {
     "@chicode/lisa-vm": "^0.1.1",
     "elm-webpack-loader": "^5.0.0",
