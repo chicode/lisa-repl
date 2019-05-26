@@ -4,6 +4,9 @@
   "scripts": {
     "build": "webpack"
   },
+  "files": [
+    "./dist/main.js"
+  ],
   "bin": "./dist/main.js",
   "devDependencies": {
     "@chicode/lisa-vm": "^0.1.1",
