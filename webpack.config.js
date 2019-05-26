@@ -1,22 +1,80 @@
 const path = require("path");
-const webpackMerge = require("webpack-merge");
+const TerserPlugin = require("terser-webpack-plugin");
+const webpack = require("webpack");
 
-const modeConfig = env => require(`./build-utils/webpack.${env}`)(env);
-const presetConfig = require("./build-utils/loadPresets");
+module.exports = {
+  mode: "production",
+  target: "node",
 
-module.exports = ({ mode, presets } = { mode: "production", presets: [] }) => {
-  console.log(`Building for: ${mode}`);
+  entry: {
+    main: path.join(__dirname, "./src/index.js")
+  },
 
-  return webpackMerge(
-    {
-      mode,
-      target: "node",
+  output: {
+    filename: "[name].js"
+  },
 
-      entry: {
-        main: path.join(__dirname, "./src/index.js")
+  module: {
+    rules: [
+      {
+        test: /\.elm$/,
+        exclude: [/elm-stuff/, /node_modules/],
+        use: {
+          loader: "elm-webpack-loader",
+          options: {
+            optimize: true
+          }
+        }
       }
-    },
-    modeConfig(mode),
-    presetConfig({ mode, presets })
-  );
+    ]
+  },
+
+  plugins: [
+    new webpack.BannerPlugin({
+      banner: "#!/usr/bin/env node",
+      raw: true
+    })
+  ],
+
+  optimization: {
+    minimizer: [
+      // https://elm-lang.org/0.19.0/optimize
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        terserOptions: {
+          mangle: false,
+          compress: {
+            pure_funcs: [
+              "F2",
+              "F3",
+              "F4",
+              "F5",
+              "F6",
+              "F7",
+              "F8",
+              "F9",
+              "A2",
+              "A3",
+              "A4",
+              "A5",
+              "A6",
+              "A7",
+              "A8",
+              "A9"
+            ],
+            pure_getters: true,
+            keep_fargs: false,
+            unsafe_comps: true,
+            unsafe: true
+          }
+        }
+      }),
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        terserOptions: { mangle: true }
+      })
+    ]
+  }
 };

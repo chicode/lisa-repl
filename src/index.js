@@ -1,8 +1,24 @@
 import { Elm } from "./Main.elm";
-import * as lisavm from "lisa-vm";
+import * as lisavm from "@chicode/lisa-vm";
 import * as repl from "repl";
+import { callbackify } from "util";
 
 const app = Elm.Main.init();
+
+const processLisa = source =>
+  new Promise((res, rej) => {
+    app.ports.out.subscribe(sub);
+    app.ports.incoming.send(source);
+    function sub(result) {
+      app.ports.out.unsubscribe(sub);
+
+      if (result.status === "ok") {
+        res(result.result);
+      } else {
+        rej(result.error);
+      }
+    }
+  });
 
 const programScope = lisavm.initProgram();
 programScope.vars["-last"] = {
@@ -13,26 +29,15 @@ programScope.vars["-last"] = {
 };
 const rep = repl.start({
   ignoreUndefined: true,
-  eval: (evalCmd, _context, _file, cb) => {
-    app.ports.out.subscribe(sub);
-    app.ports.incoming.send(evalCmd);
-    function sub(programResult) {
-      app.ports.out.unsubscribe(sub);
-
-      if (programResult.status === "err") {
-        const err = new SyntaxError(programResult.error.msg);
-        return cb(
-          programResult.error.recoverable ? new repl.Recoverable(err) : err
-        );
-      }
-      const program = programResult.result;
-      try {
-        const result = lisavm.evalExpressions(programScope, program);
-        rep.last = result;
-        cb(null, result.type !== "none" ? lisavm.valueToJs(result) : undefined);
-      } catch (err) {
-        cb(err);
-      }
+  eval: callbackify(async (evalCmd, _context, _file) => {
+    try {
+      var program = await processLisa(evalCmd);
+    } catch (e) {
+      const err = new SyntaxError(e.msg);
+      throw e.recoverable ? new repl.Recoverable(err) : err;
     }
-  }
+    const result = lisavm.evalExpressions(programScope, program);
+    rep.last = result;
+    return result.type !== "none" ? lisavm.valueToJs(result) : undefined;
+  })
 });
