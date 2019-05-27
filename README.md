@@ -39,11 +39,6 @@ $ lisa-repl
 55
 ```
 
-## Credits
-
-I based the webpack configuration off of
-[romariolopezc/elm-webpack-4-starter](https://github.com/romariolopezc/elm-webpack-4-starter)
-
 ## License
 
 This project is licensed under the GPLv3. Please see the [LICENSE](LICENSE) file

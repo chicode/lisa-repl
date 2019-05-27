@@ -2,7 +2,7 @@
   "name": "@chicode/lisa-repl",
   "version": "1.0.2",
   "scripts": {
-    "build": "webpack"
+    "build": "rollup -c"
   },
   "files": [
     "./dist/main.js"
@@ -10,10 +10,10 @@
   "bin": "./dist/main.js",
   "devDependencies": {
     "@chicode/lisa-vm": "^0.1.1",
-    "elm-webpack-loader": "^5.0.0",
-    "terser-webpack-plugin": "^1.2.3",
-    "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.2"
+    "rollup": "^1.12.3",
+    "rollup-plugin-elm": "^2.0.0",
+    "rollup-plugin-node-resolve": "^5.0.0",
+    "rollup-plugin-terser": "^5.0.0"
   },
   "license": "MIT"
 }

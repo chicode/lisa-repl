@@ -1,4 +1,4 @@
-import { Elm } from "./Main.elm";
+import Elm from "./Main.elm";
 import * as lisavm from "@chicode/lisa-vm";
 import * as repl from "repl";
 import { callbackify } from "util";
