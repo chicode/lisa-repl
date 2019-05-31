@@ -21,12 +21,12 @@ const processLisa = source =>
   });
 
 const programScope = lisavm.initProgram();
-programScope.vars["-last"] = {
-  type: "const",
-  get value() {
-    return rep.last || { type: "none" };
-  }
-};
+// programScope.parent.vars["-last"] = {
+//   type: "const",
+//   get value() {
+//     return rep.last || { type: "none" };
+//   }
+// };
 const rep = repl.start({
   ignoreUndefined: true,
   eval: callbackify(async (evalCmd, _context, _file) => {
@@ -36,7 +36,19 @@ const rep = repl.start({
       const err = new SyntaxError(e.msg);
       throw e.recoverable ? new repl.Recoverable(err) : err;
     }
-    const result = lisavm.evalExpressions(programScope, program);
+    let result = lisavm.values.none;
+    for (const replExpr of program) {
+      switch (replExpr.type) {
+        case "expression":
+          result = lisavm.evalExpression(programScope, replExpr.expr);
+          break;
+        case "definition":
+          programScope.vars[replExpr.name] = lisavm.evalExpression(
+            programScope,
+            replExpr.value
+          );
+      }
+    }
     rep.last = result;
     return result.type !== "none" ? lisavm.valueToJs(result) : undefined;
   })
