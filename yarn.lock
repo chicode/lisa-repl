@@ -18,10 +18,10 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@chicode/lisa-vm@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@chicode/lisa-vm/-/lisa-vm-1.0.2.tgz#5f851bc7c4f1274bb569420d9a8e390b3d241113"
-  integrity sha512-V6BQ+9N6z34KwLtzIlh2zlFqg1M8TmVhqc37PWwItIlMT2dFvze1967aCnoEi4Kz5uDBMjoX4QZlMNA3cq95vA==
+"@chicode/lisa-vm@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@chicode/lisa-vm/-/lisa-vm-1.0.3.tgz#7943770c6a221f292027301abf9fec0919791130"
+  integrity sha512-u5OxCqIvlF/rGc8xsR95XqUa1t4MiHkTMnSZms9KVye35iE2vmAzFSlupFBXUaA+DYu0Ubg4CuEG8PxgyIbKwQ==
 
 "@types/estree@0.0.39":
   version "0.0.39"

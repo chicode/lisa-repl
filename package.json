@@ -6,7 +6,7 @@
   },
   "bin": "./dist/main.js",
   "devDependencies": {
-    "@chicode/lisa-vm": "^1.0.2",
+    "@chicode/lisa-vm": "^1.0.3",
     "rollup": "^1.12.3",
     "rollup-plugin-elm": "^2.0.0",
     "rollup-plugin-node-resolve": "^5.0.0",
